@@ -1,6 +1,6 @@
 use std::net::TcpListener;
 
-const ADDRESS: &str = "127.0.0.1:4100";
+// const ADDRESS: &str = "127.0.0.1:4100";
 
 async fn spawn_app() -> String {
     let listener = TcpListener::bind("127.0.0.1:0").expect("failed to bind address");
@@ -57,7 +57,7 @@ async fn sibscribe_returns_a_400_when_date_is_missing()  {
         ("", "missing name and email"),
     ];
 
-    for (invalid_body, error_messages) in test_cases {
+    for (invalid_body, _error_messages) in test_cases {
         let response = client
             .post(&format!("{}/subscriptions", &app_address))
             .header("Content-Type", "application/x-www-form-urlencoded")
