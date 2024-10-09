@@ -9,14 +9,16 @@ async fn health_check() -> impl Responder {
     HttpResponse::Ok().finish()
 }
 
-async fn subscribe(_form: web::Form<FromData>) -> impl Responder {
+async fn subscribe(form: web::Form<FromData>) -> impl Responder {
+    let _x = form.email.clone();
+    let _y = form.name.clone();
     HttpResponse::Ok().finish()
 }
 
 #[derive(serde::Deserialize)]
 pub struct FromData {
-    _email: String,
-    _name: String,
+    email: String,
+    name: String,
 }
 
 
