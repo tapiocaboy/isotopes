@@ -38,6 +38,10 @@ jobs:
       - name: Install dotenv CLI
         run: sudo apt-get install -y dotenv
 
+      # Install sqlx-cli to manage database and migrations
+      - name: Install sqlx-cli
+        run: cargo install sqlx-cli --no-default-features --features postgres
+
       # Wait for PostgreSQL to be ready on the host's port 5100
       - name: Wait for PostgreSQL
         run: |
@@ -54,16 +58,32 @@ jobs:
       - name: Set up PostgreSQL environment variables
         run: echo "DATABASE_URL=postgres://postgres:password@localhost:5100/test_db" >> $GITHUB_ENV
 
+      # Create the test_db database using sqlx-cli
+      - name: Create database
+        run: sqlx database create
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+
+      # Run migrations using sqlx-cli
+      - name: Run migrations
+        run: sqlx migrate run
+        env:
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+
+      # Build project
       - name: Build project
         run: cargo build --verbose
 
+      # Run tests
       - name: Run tests
         run: cargo test
         env:
           DATABASE_URL: ${{ env.DATABASE_URL }}
 
+      # Run linter
       - name: Run linter
         run: cargo clippy -- -D warnings
 
+      # Generate documentation
       - name: Generate documentation
         run: cargo doc --no-deps --document-private-items
