@@ -69,7 +69,11 @@ async fn health_check_works() {
 
     // Assert
     assert!(response.status().is_success());
-    // assert_eq!(Some(0), response.content_length());
+    // Deserialize the response body as JSON
+    let json: serde_json::Value = response.json().await.expect("Failed to parse JSON");
+
+    // Assert that the status is "alive"
+    assert_eq!(json["status"], "alive");
 }
 
 #[tokio::test]
