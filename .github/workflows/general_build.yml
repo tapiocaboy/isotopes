@@ -15,13 +15,13 @@ jobs:
       postgres:
         image: postgres:13
         ports:
-          - 5432:5432
+          - 5100:5432  # Map port 5100 on the host to 5432 in the container
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
           POSTGRES_DB: test_db
         options: >-
-          --health-cmd="pg_isready -U postgres"
+          --health-cmd="pg_isready -h localhost -p 5432 -U postgres"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -38,17 +38,21 @@ jobs:
       - name: Install dotenv CLI
         run: sudo apt-get install -y dotenv
 
-      # Wait for PostgreSQL to be ready
+      # Wait for PostgreSQL to be ready on the host's port 5100
       - name: Wait for PostgreSQL
         run: |
-          until pg_isready -h localhost -p 5432 -U postgres; do
-            echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -h localhost -p 5100 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready on port 5100..."
             sleep 2
           done
 
       # Set up environment variables for PostgreSQL and from the .env file
       - name: Load environment variables from .env
         run: dotenv -f .env | tee -a $GITHUB_ENV
+
+      # Set up PostgreSQL environment variable for testing on port 5100
+      - name: Set up PostgreSQL environment variables
+        run: echo "DATABASE_URL=postgres://postgres:password@localhost:5100/test_db" >> $GITHUB_ENV
 
       - name: Build project
         run: cargo build --verbose
