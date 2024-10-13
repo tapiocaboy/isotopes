@@ -16,6 +16,18 @@ name = "isotopes"
 actix-web = "4.9.0"
 tokio = { version = "1.40.0", features = ["macros", "rt-multi-thread"] }
 serde = {version = "1.0.130", features = ["derive"]}
+config = "0.14.0"
 [dev-dependencies]
 reqwest = "0.12.7"
 
+[dependencies.sqlx]
+version = "0.8.0"
+default-features = false
+features = [
+    "runtime-tokio-rustls",
+    "macros",
+    "postgres",
+    "uuid",
+    "chrono",
+    "migrate"
+]
