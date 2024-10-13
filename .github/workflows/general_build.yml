@@ -34,6 +34,10 @@ jobs:
         with:
           toolchain: stable
 
+      # Install the dotenv CLI tool to load the .env file
+      - name: Install dotenv CLI
+        run: sudo apt-get install -y dotenv
+
       # Wait for PostgreSQL to be ready
       - name: Wait for PostgreSQL
         run: |
@@ -42,8 +46,9 @@ jobs:
             sleep 2
           done
 
-      - name: Set up environment variables for PostgreSQL
-        run: echo "DATABASE_URL=postgres://postgres:password@localhost/test_db" >> $GITHUB_ENV
+      # Set up environment variables for PostgreSQL and from the .env file
+      - name: Load environment variables from .env
+        run: dotenv -f .env | tee -a $GITHUB_ENV
 
       - name: Build project
         run: cargo build --verbose
