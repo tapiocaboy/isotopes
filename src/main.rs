@@ -1,6 +1,7 @@
 use std::net::TcpListener;
 use isotopes::configuration::get_configuration;
-use isotopes::run;
+use sqlx::PgPool;
+use isotopes::startup::run;
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
@@ -8,6 +9,11 @@ async fn main() -> Result<(), std::io::Error> {
 
     let configuration = get_configuration()
         .expect("Failed to read configuration.");
+
+    let connection = PgPool::connect(
+        &configuration.database.connection_string())
+        .await
+        .expect("Failed to connect to Postgres.");
 
     let address = format!(
         "127.0.0.1:{}", configuration.application_port
@@ -19,5 +25,5 @@ async fn main() -> Result<(), std::io::Error> {
     // let port = listener.local_addr().unwrap().port();
     // println!("{}", port);
 
-    run(listener).await?.await
+    run(listener, connection)?.await
 }
