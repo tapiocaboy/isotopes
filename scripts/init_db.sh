@@ -21,13 +21,6 @@ APP_USER_PWD="${APP_USER_PWD:=password}"
 APP_DB_NAME="${APP_DB_NAME:=newsletter}"
 
 CONTAINER_NAME="postgres_salon_dev"
-#docker run \
-#  --name "${CONTAINER_NAME}" \
-#  --env POSTGRES_USER=${SUPERUSER} \
-#  --env POSTGRES_PASSWORD=${SUPERUSER_PWD} \
-#  --publish "${DB_PORT}":5432 \
-#  --detach \
-#  postgres -N 1000
 
 docker run \
   --env POSTGRES_USER=${SUPERUSER} \
