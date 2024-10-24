@@ -24,9 +24,13 @@ env_logger = "0.11.5"
 log = "0.4.22"
 tracing = { version = "0.1.40", features = ["log"] }
 futures = "0.3.31"
+utoipa = "5.1.2"
+utoipa-swagger-ui = "8.0.3"
+
 [dev-dependencies]
 reqwest = { version = "0.12.7", features = ["json"] }
 cargo-bump = "1.1.0"
+
 
 [dependencies.sqlx]
 version = "0.8.0"
@@ -39,3 +43,4 @@ features = [
     "chrono",
     "migrate"
 ]
+
