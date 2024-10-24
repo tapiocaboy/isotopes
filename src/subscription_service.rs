@@ -5,6 +5,7 @@ use crate::retry::retry;
 use std::time::Duration;
 use chrono::Utc;
 
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AiModuleUpdate {
     pub ai_id: i32,
@@ -23,6 +24,12 @@ pub struct AiModule {
     pub active: bool,
 }
 
+/// Subscribe to AI module updates
+/// # Arguments
+/// * `pool` - The database connection pool
+/// * `payload` - The AI module update payload
+/// # Returns
+/// * `HttpResponse` - The HTTP response
 pub async fn subscribe_ai_module_updates(
     pool: web::Data<PgPool>,
     payload: web::Json<AiModuleUpdate>,
@@ -46,6 +53,14 @@ pub async fn subscribe_ai_module_updates(
     }
 }
 
+/// update AI module
+/// # Arguments
+/// * `pool` - The database connection pool
+/// * `update` - The AI module update payload
+/// # Returns
+/// * `Result<(), sqlx::Error>` - The result of the operation
+/// # Errors
+/// * `sqlx::Error` - The error type
 async fn update_ai_module(pool: &PgPool, update: &AiModuleUpdate) -> Result<(), sqlx::Error> {
     sqlx::query!(
         r#"
@@ -64,6 +79,19 @@ async fn update_ai_module(pool: &PgPool, update: &AiModuleUpdate) -> Result<(), 
     Ok(())
 }
 
+/// Get AI module
+/// # Arguments
+/// * `pool` - The database connection pool
+/// * `ai_id` - The AI module ID
+/// # Returns
+/// * `HttpResponse` - The HTTP response
+/// # Errors
+/// * `sqlx::Error` - The error type
+/// * `actix_web::Error` - The error type
+/// * `serde_json::Error` - The error type
+/// * `chrono::ParseError` - The error type
+/// * `std::io::Error` - The error type
+/// * `std::time::SystemTimeError` - The error type
 pub async fn get_ai_module(
     pool: web::Data<PgPool>,
     ai_id: web::Path<i32>,
