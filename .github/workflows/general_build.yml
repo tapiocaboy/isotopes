@@ -88,27 +88,27 @@ jobs:
       - name: Generate documentation
         run: cargo doc --no-deps --document-private-items
 
-      # Increment version
-      - name: Increment version
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          cargo install cargo-bump
-          cargo bump patch
-          NEW_VERSION=$(grep -m1 version Cargo.toml | cut -d '"' -f2)
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+      # # Increment version
+      # - name: Increment version
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: |
+      #     cargo install cargo-bump
+      #     cargo bump patch
+      #     NEW_VERSION=$(grep -m1 version Cargo.toml | cut -d '"' -f2)
+      #     echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
-      # Update README.md with new version
-      - name: Update README.md
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          sed -i 's/img.shields.io\/crates\/v\/isotopes.svg/img.shields.io\/badge\/version-'"$NEW_VERSION"'-blue/' README.md
+      # # Update README.md with new version
+      # - name: Update README.md
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: |
+      #     sed -i 's/img.shields.io\/crates\/v\/isotopes.svg/img.shields.io\/badge\/version-'"$NEW_VERSION"'-blue/' README.md
 
-      # Commit and push changes
-      - name: Commit and push changes
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add Cargo.toml README.md
-          git commit -m "Bump version to $NEW_VERSION"
-          git push
+      # # Commit and push changes
+      # - name: Commit and push changes
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add Cargo.toml README.md
+      #     git commit -m "Bump version to $NEW_VERSION"
+      #     git push
