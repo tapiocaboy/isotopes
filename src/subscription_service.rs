@@ -4,9 +4,10 @@ use sqlx::PgPool;
 use crate::retry::retry;
 use std::time::Duration;
 use chrono::Utc;
+use utoipa::ToSchema;
 
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, ToSchema)]
 pub struct AiModuleUpdate {
     pub ai_id: i32,
     pub business_id: String,
@@ -14,11 +15,12 @@ pub struct AiModuleUpdate {
     pub active: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, ToSchema)]
 pub struct AiModule {
     pub ai_id: i32,
     pub business_id: String,
     pub module_id: String,
+    #[serde(with = "chrono::serde::ts_seconds")]
     pub created: chrono::DateTime<Utc>,
     pub updated: chrono::DateTime<Utc>,
     pub active: bool,

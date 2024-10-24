@@ -2,6 +2,7 @@
     "cSpell.words": [
         "actix",
         "chrono",
+        "openapi",
         "sqlx",
         "utoipa"
     ]

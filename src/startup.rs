@@ -6,17 +6,26 @@ use actix_web::middleware::Logger;
 
 use sqlx::PgPool;
 use std::net::TcpListener;
+use utoipa_swagger_ui::SwaggerUi;
 use crate::subscription_service;
-// use utoipa::OpenApi;
-// use utoipa::ToSchema;
+
+use utoipa::OpenApi;
+// use crate::subscription_service::{AiModule, RawModule, Machine, Subscription};
 
 // #[derive(OpenApi)]
 // #[openapi(
-//     paths(health_check, subscribe, subscribe_ai_module_updates, get_ai_module, get_all_ai_modules),
-//     components(schemas(AiModule, RawModule))
+//     paths(
+//         crate::routes::health_check,
+//         crate::routes::subscribe,
+//         crate::subscription_service::subscribe_ai_module_updates,
+//         crate::subscription_service::get_ai_module,
+//         crate::subscription_service::get_all_ai_modules
+//     ),
+//     components(
+//         schemas(AiModule, RawModule)
+//     )
 // )]
-
-
+// pub struct ApiDoc;
 
 pub fn run(listener: TcpListener, db_pool: PgPool) -> Result<Server, std::io::Error> {
     // Wrap the connection in a smart pointer

@@ -5,7 +5,6 @@ use chrono::{DateTime, Utc};
 pub struct AiModule {
     pub ai_id: i32,
     pub business_id: String,
-    pub module_id: String,
     pub created: DateTime<Utc>,
     pub updated: DateTime<Utc>,
     pub active: bool,
