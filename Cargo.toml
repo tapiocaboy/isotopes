@@ -22,6 +22,7 @@ chrono = { version = "0.4.19", default-features = false, features = ["clock"] }
 serde_json = "1.0.128"
 env_logger = "0.11.5"
 log = "0.4.22"
+tracing = { version = "0.1.40", features = ["log"] }
 [dev-dependencies]
 reqwest = { version = "0.12.7", features = ["json"] }
 
