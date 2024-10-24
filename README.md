@@ -18,7 +18,8 @@ The Isotopes backend application is a RESTful service developed in Rust, designe
   - Manage raw modules with unique IDs, names, codes, and hosted links.
   - Indexed by module name for quick access.
   
-  ```sql:migrations/20241024051839_create_raw_modules.sql
+  ```
+  sql:migrations/20241024051839_create_raw_modules.sql
   ```
 
 - **Machines Management**:
@@ -26,14 +27,15 @@ The Isotopes backend application is a RESTful service developed in Rust, designe
   - Foreign key relationship with raw modules ensures data integrity.
   - Indexed by owner and raw module ID.
   
-  ```sql:migrations/20241024051840_create_machines.sql
+  ```
+  sql:migrations/20241024051840_create_machines.sql
   ```
 
 - **Subscriptions**:
   - Manage subscriptions with unique UUIDs, emails, names, and subscription timestamps.
   
-  ```sql:migrations/20241013074559_create_subscriptions_table.sql
-
+  ```
+  sql:migrations/20241013074559_create_subscriptions_table.sql
   ```
 
 ## Getting Started
